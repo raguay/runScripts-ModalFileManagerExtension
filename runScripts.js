@@ -96,14 +96,55 @@ const runScripts = {
     // This will show all npm scripts in the current directory and prompt the 
     // user to select one.
     //
-    console.log('Run Npm Script');
+    const lfs = runScripts.extMan.localFS;
+    const lcursor = runScripts.extMan.getExtCommand('getCursor').command();
+    const npmf = lfs.appendPath(lcursor.entry.dir, 'package.json');
+    if(lfs.fileExists(npmf)) {
+      var npmFile = JSON.parse(lfs.readFile(npmf));
+      var scripts = [];
+      Object.keys(npmFile.scripts).forEach(item => {
+        scripts.push({
+          name: item,
+          value: item
+        });
+      });
+      runScripts.extMan.getExtCommand('pickItem').command('Which Npm Script?', scripts, runScripts.runNpmScriptReturn);
+    } else {
+      runScripts.extMan.getExtCommand('showMessage').command('Run User Scripts', 'No package.json file in this directory!');
+    }
+  },
+  runNpmScriptReturn: function(value) {
+    runScripts.returnScript('npm run ' + value);
   },
   runMaskScript: function() {
     //
     // This will show all Mask scripts in the current directory and prompt the 
     // user to select one.
     //
-    console.log('Run Mask Script');
+    const lfs = runScripts.extMan.localFS;
+    const lcursor = runScripts.extMan.getExtCommand('getCursor').command();
+    const maskf = lfs.appendPath(lcursor.entry.dir, 'maskfile.md');
+    var scripts = [];
+    if(lfs.fileExists(maskf)) {
+      var npmFile = new String(lfs.readFile(maskf)).split('\n').forEach(el => {
+        var mtch = el.match(/##\ ([^\ ]*)/);
+        console.log(mtch);
+        if(mtch !== null) {
+          scripts.push({
+            name: mtch[1],
+            value: mtch[1]
+          })
+        }
+      });
+      console.log(scripts);
+
+      runScripts.extMan.getExtCommand('pickItem').command('Which Mask Script?', scripts, runScripts.runMaskScriptReturn);
+    } else {
+      runScripts.extMan.getExtCommand('showMessage').command('Run User Scripts', 'No maskfile.md file in this directory!');
+    }
+  },
+  runMaskScriptReturn: function() {
+    runScripts.returnScript('mask ' + value);
   },
   runScript: function() {
     const lfs = runScripts.extMan.localFS;
