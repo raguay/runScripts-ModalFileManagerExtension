@@ -143,7 +143,7 @@ const runScripts = {
       runScripts.extMan.getExtCommand('showMessage').command('Run User Scripts', 'No maskfile.md file in this directory!');
     }
   },
-  runMaskScriptReturn: function() {
+  runMaskScriptReturn: function(value) {
     runScripts.returnScript('mask ' + value);
   },
   runScript: function() {
