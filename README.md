@@ -30,6 +30,6 @@ The following commands are available to use in the Command Prompt:
 | Run Command Line | This will run a command line just like a script. |
 | Edit Script | A list of scripts will be given to choose from. That script will be opened in the user's defined editor. |
 | Go To Scripts Directory | This will open the current pane in the Modal File Manager to the scripts directory. |
-
+| Install Example Scripts | This will install the example scripts into the scripts folder |
 
 
