@@ -48,6 +48,20 @@ const runScripts = {
     cmds.addCommand('Run Command Line', 'runScripts.runCommandLine','Run a command line the user gives.', runScripts.runCommandLine);
     cmds.addCommand('Edit Script', 'runScripts.editScript','Edit the user specified script.', runScripts.editScript);
     cmds.addCommand('Go To Scripts Directory', 'runScripts.goToScript','Open the scripts directory.', runScripts.goToScript);
+    cmds.addCommand('Install Example Scripts', 'runScripts.copyExampleScripts','Install the example scripts. If you have changed any, they will be overwritten.', runScripts.copyExampleScripts);
+  },
+  copyExampleScripts: function() {
+    const lfs = runScripts.extMan.localFS;
+    if(lfs.dirExists(runScripts.scriptDir)) {
+      var orgScriptDir = lfs.appendPath(runScripts.extMan.getExtensionDir(),'runScripts-ModalFileManagerExtension/scripts');
+      if(lfs.dirExists(orgScriptDir)) {
+        const scrpts = lfs.getDirList(orgScriptDir);
+        runScripts.extMan.getExtCommand('copyEntriesCommand').command(scrpts, {
+          dir: runScripts.scriptDir,
+          name: ''
+        });
+      }
+    }
   },
   saveHistFile: function() {
     runScripts.hist = [...new Set(runScripts.hist)];
