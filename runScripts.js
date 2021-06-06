@@ -33,6 +33,7 @@ const runScripts = {
     runScripts.scriptDir = lfs.appendPath(extdir, '../scripts');
     if(!lfs.dirExists(runScripts.scriptDir)) {
       lfs.makeDir(runScripts.scriptDir);
+      runScripts.copyExampleScripts();
     }
     if(!lfs.fileExists(runScripts.histFile)) {
       lfs.writeFile(runScripts.histFile, JSON.stringify(['ls']));
